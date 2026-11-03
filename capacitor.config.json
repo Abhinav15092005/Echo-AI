@@ -1,0 +1,10 @@
+{
+  "appId": "com.echo.ai", 
+  "appName": "Echo AI",
+  "webDir": "www",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

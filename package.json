@@ -1,0 +1,42 @@
+{
+  "name": "echo-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Echo AI voice assistant for blind and visually impaired users",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "env": "node scripts/inject-env.mjs",
+    "build:web": "node scripts/build-web.mjs",
+    "build": "npm run env && npm run build:web",
+    "lint": "eslint src/ --ext .js",
+    "check": "npm run env && npx esbuild src/main.js --bundle --outfile=nul --log-level=warning && npm run lint",
+    "sync": "npx cap sync android",
+    "patch:android": "node scripts/patch-android.mjs",
+    "android": "cd android && gradlew.bat assembleDebug",
+    "apk": "npm run check && npm run build && npm run sync && npm run patch:android && npm run android",
+    "install:apk": "adb install -r android\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+    "icon": "npx @capacitor/assets generate --android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/device": "^7.0.0",
+    "@capgo/capacitor-speech-recognition": "^7.0.0",
+    "@capacitor-community/text-to-speech": "^6.1.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/assets": "^3.0.5",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.0.0"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "sharp": true,
+    "@capacitor/assets": true
+  }
+}
